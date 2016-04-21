@@ -43,8 +43,8 @@ Vagrant.configure(2) do |config|
     #
     # This is fixed in master branch as of March 1, 2016, but not in v 1.8.1
     # PR https://github.com/mitchellh/vagrant/pull/7093
-    # fbsd.vm.network "private_network", type: "dhcp", auto_config: false
-    fbsd.vm.network "public_network", type: "dhcp", auto_config: false, bridge: "en0: Wi-Fi (AirPort)", mac: "080027976B38"
+    fbsd.vm.network "private_network", type: "dhcp", auto_config: false
+    # fbsd.vm.network "public_network", type: "dhcp", auto_config: false, bridge: "en0: Wi-Fi (AirPort)", mac: "080027976B38"
     # Workaround from
     # http://stackoverflow.com/questions/33569922/vagrant-network-configuration-with-slackware-box
     fbsd.vm.provision "shell", run: "always", inline: "/usr/sbin/service netif restart em1"
