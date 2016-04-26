@@ -41,12 +41,30 @@ Log out of the SSH session and copy the image to your machine.
     vagrant@freebsd11$ exit
     user@host$ vagrant scp freebsd11:/home/vagrant/crochet/work/FreeBSD-RPI2.img.xz .
 
-Uncompress the image and write it to an SD card.
+Uncompress the image and write it to a MicroSD card.
 
 ::
 
     user@host$ xz -d FreeBSD-RPI2.img.xz
     user@host$ sudo dd if=FreeBSD-RPI2.img of=/dev/rdisk596870 bs=1m && sync
+
+Image Customization
+-------------------
+
+I create an image with customizations -- such as network settings -- for my
+hardware setup. Later I use Ansible to manage the box when it's up and
+running.
+
+These customizations go in the ``customize_freebsd_partition ( )`` section
+in the config file. File with my customizations is in this repo and named
+*config.rpi2.canakit.sh*.
+
+**NOTE:** Modify *ssid* and *psk* (lines 318 and 319) values in
+*config.rpi2.canakit.sh* before building the image or WLAN will not connect
+after boot.
+
+Updates
+-------
 
 In future -- when you need to build newer versions -- update the subversion
 repo and build a new image.

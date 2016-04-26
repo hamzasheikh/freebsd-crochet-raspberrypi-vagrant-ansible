@@ -28,14 +28,20 @@
           owner=vagrant
           group=vagrant
           mode="u=rw,g=r,o=r"
+  - name: copy config.rpi2.canakit.sh
+    copy: src=./config.rpi2.canakit.sh
+          dest=/home/vagrant/crochet/config.rpi2.canakit.sh
+          owner=vagrant
+          group=vagrant
+          mode="u=rw,g=r,o=r"
   - name: copy config.cuboxi.sh
     copy: src=./config.cuboxi.sh
           dest=/home/vagrant/crochet/config.cuboxi.sh
           owner=vagrant
           group=vagrant
           mode="u=rw,g=r,o=r"
-  - name: workaround ansible bug - delete empty file created by ansible 'copy'
-    raw: rm "/home/vagrant/0:"
+  # - name: workaround ansible bug - delete empty file created by ansible 'copy'
+  #   raw: rm "/home/vagrant/0:"
   - name: install u-boot-rpi2
     pkgng: name=sysutils/u-boot-rpi2 state=present
     become: yes
