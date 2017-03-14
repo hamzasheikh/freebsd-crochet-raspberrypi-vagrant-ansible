@@ -6,15 +6,18 @@
   tasks:
   - name: upgrade pkg
     raw: sudo pkg upgrade -y
-  - name: install python
-    raw: sudo pkg install -y python27
+  - name: upgrade python27
+    pkgng: name=python27 state=latest
+    become: yes
+    become_user: root
+    become_method: sudo
   - name: install vim-lite
-    pkgng: name=vim-lite state=present
+    pkgng: name=vim-lite state=latest
     become: yes
     become_user: root
     become_method: sudo
   - name: install git
-    pkgng: name=git state=present
+    pkgng: name=git state=latest
     become: yes
     become_user: root
     become_method: sudo
@@ -40,10 +43,8 @@
           owner=vagrant
           group=vagrant
           mode="u=rw,g=r,o=r"
-  # - name: workaround ansible bug - delete empty file created by ansible 'copy'
-  #   raw: rm "/home/vagrant/0:"
   - name: install u-boot-rpi2
-    pkgng: name=sysutils/u-boot-rpi2 state=present
+    pkgng: name=sysutils/u-boot-rpi2 state=latest
     become: yes
     become_user: root
     become_method: sudo
