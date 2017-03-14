@@ -8,9 +8,9 @@ Vagrant.configure(2) do |config|
     v.cpus = 2
   end
 
-  config.vm.define 'freebsd11' do |fbsd|
+  config.vm.define 'freebsd12' do |fbsd|
 
-    fbsd.vm.box = "freebsd/FreeBSD-11.0-CURRENT"
+    fbsd.vm.box = "freebsd/FreeBSD-12.0-CURRENT"
 
     fbsd.vm.box_check_update = true
 
@@ -43,19 +43,24 @@ Vagrant.configure(2) do |config|
     #
     # This is fixed in master branch as of March 1, 2016, but not in v 1.8.1
     # PR https://github.com/mitchellh/vagrant/pull/7093
-    fbsd.vm.network "private_network", type: "dhcp", auto_config: false
-    # fbsd.vm.network "public_network", type: "dhcp", auto_config: false, bridge: "en0: Wi-Fi (AirPort)", mac: "080027976B38"
+    # fbsd.vm.network "private_network", type: "dhcp", auto_config: false
     # Workaround from
     # http://stackoverflow.com/questions/33569922/vagrant-network-configuration-with-slackware-box
-    fbsd.vm.provision "shell", run: "always", inline: "/usr/sbin/service netif restart em1"
+    # fbsd.vm.provision "shell", run: "always", inline: "/usr/sbin/service netif restart em1"
 
     fbsd.vm.synced_folder ".", "/vagrant_data", disabled: true
 
     fbsd.ssh.shell = "/bin/sh"
 
+    # Bootstrap pkgng
+    fbsd.vm.provision "shell", inline: "env ASSUME_ALWAYS_YES=YES pkg bootstrap"
+
+    # Install Python 2.7 for use in Ansible provision
+    fbsd.vm.provision "shell", inline: "pkg install -y python27"
+
     fbsd.vm.provision "ansible" do |ansible|
       ansible.verbose = "v"
-      ansible.playbook = "playbook.yaml"
+      ansible.playbook = "playbook.yml"
     end
   end
 end
